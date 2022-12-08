@@ -15,7 +15,10 @@ app.use(helmet());
 app.use(cors());
 app.options('*', cors());
 
-getArticles();
+//temporary solution to check that requests to API work
+getArticles().catch((err) => {
+  console.log(`Error:     ${err}`);
+});
 
 app.listen(PORT, () => {
   console.log(`listening on port: ${PORT}`);

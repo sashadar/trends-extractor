@@ -9,6 +9,12 @@ import fetch from 'node-fetch';
 const BASE_URL = 'https://api.newscatcherapi.com/v2/latest_headlines?lang=en';
 const API_KEY = 'RmZ9zOUNFDks77GkQdX9eXWQjhkprmkpYdvfTPvu5I8';
 
+const processResponse = (res) => {
+  return res.ok
+    ? res.json()
+    : Promise.reject(`${res.status} ${res.statusText}`);
+};
+
 const getArticles = async () => {
   const result = await fetch(BASE_URL, {
     method: 'GET',
@@ -17,9 +23,10 @@ const getArticles = async () => {
       'x-api-key': API_KEY,
     },
   })
-    .then((res) => res.json())
+    .then(processResponse)
     .then((res) => {
       console.log('=====================================================');
+      console.log(res);
       console.log(res.articles[0].title);
       return res.articles[0].title;
     });
